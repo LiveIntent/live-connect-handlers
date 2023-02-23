@@ -1,0 +1,247 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.3
+
+parameters:
+  node_version:
+    type: string
+    default: "12.22.11"
+
+references:
+  releasable_branches: &releasable_branches
+    - master
+
+  restore_cache: &restore_cache
+    restore_cache:
+      key: dependency-cache-{{ checksum "package-lock.json" }}-{{ checksum "package.json" }}
+
+  save_cache: &save_cache
+    save_cache:
+      key: dependency-cache-{{ checksum "package-lock.json" }}-{{ checksum "package.json" }}
+      paths:
+        - ./node_modules
+
+  npm_install: &npm_install
+    run:
+      name: Npm install
+      command: npm install
+
+  configure_git: &configure_git
+    run:
+      name: Configure Git
+      command: |
+        git config user.name "${CIRCLE_USERNAME}"
+        git config user.email "dev-berlin@liveintent.com"
+        git branch -u origin/${CIRCLE_BRANCH} ${CIRCLE_BRANCH}
+
+  set_ssh_key: &set_ssh_key
+    add_ssh_keys:
+      fingerprints:
+        - "fc:86:a8:4a:4d:ab:a7:8d:e7:b9:45:8f:d3:85:9d:54"
+
+  reset_package_lock: &reset_package_lock
+    run:
+      name: Reset package-lock.json
+      command: git checkout -- package-lock.json
+
+jobs:
+  build_and_test:
+    parallelism: 1
+    machine: true
+    steps:
+      - checkout
+      - *restore_cache
+      - node/install:
+          node-version: << pipeline.parameters.node_version >>
+      - *npm_install
+      - *save_cache
+      - run:
+          name: Lint sources
+          command: npm run lint
+      - run:
+          name: Build project
+          command: npm run build
+      - run:
+          name: Run tests
+          command: npm run test
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: ./test-results
+          destination: test-results
+
+  release:
+    parallelism: 1
+    machine: true
+    parameters:
+      increment:
+        description: |
+          "Increment of release. Allowed values `prepatch`, `preminor`, `premajor`, `bump-prerelease`,
+          `alpha->beta`, `beta->rc`, `patch`, `minor`, `major`"
+        default: "patch"
+        type: string
+    steps:
+      - checkout
+      - node/install:
+          node-version: << pipeline.parameters.node_version >>
+      - *npm_install
+      - *configure_git
+      - *set_ssh_key
+      - *reset_package_lock
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run:
+          name: release
+          command: npm run release:ci:<< parameters.increment >>
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build_and_test
+
+      - release_prepatch?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: *releasable_branches
+
+      - release:
+          context: live-connect
+          name: release_prepatch
+          increment: "prepatch"
+          requires:
+            - release_prepatch?
+
+      - release_preminor?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: *releasable_branches
+
+      - release:
+          context: live-connect
+          name: release_preminor
+          increment: "preminor"
+          requires:
+            - release_preminor?
+
+      - release_premajor?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: master
+
+      - release:
+          context: live-connect
+          name: release_premajor
+          increment: "premajor"
+          requires:
+            - release_premajor?
+
+      - release_bump-prerelease?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: *releasable_branches
+
+      - release:
+          context: live-connect
+          name: release_bump-prerelease
+          increment: "bump-prerelease"
+          requires:
+            - release_bump-prerelease?
+
+      - release_alpha->beta?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: *releasable_branches
+
+      - release:
+          context: live-connect
+          name: release_alpha->beta
+          increment: "alpha->beta"
+          requires:
+            - release_alpha->beta?
+
+      - release_beta->rc?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: *releasable_branches
+
+      - release:
+          context: live-connect
+          name: release_beta->rc
+          increment: "beta->rc"
+          requires:
+            - release_beta->rc?
+
+      - release_patch?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: *releasable_branches
+
+      - release:
+          context: live-connect
+          name: release_patch
+          increment: "patch"
+          requires:
+            - release_patch?
+
+      - release_minor?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: *releasable_branches
+
+      - release:
+          context: live-connect
+          name: release_minor
+          increment: "minor"
+          requires:
+            - release_minor?
+
+      - release_major?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: master
+
+      - release:
+          context: live-connect
+          name: release_major
+          increment: "major"
+          requires:
+            - release_major?
