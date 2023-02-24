@@ -1,6 +1,6 @@
-import { ExternalCallHandler, isFunction } from 'live-connect-common'
+import { CallHandler, isFunction } from 'live-connect-common'
 
-export class DefaultCallHandler implements ExternalCallHandler {
+export class DefaultCallHandler implements CallHandler {
   ajaxGet(url: string, responseHandler: (responseText: string, response: object) => void, fallback?: (error: unknown) => void, timeout = 1000): void {
     function errorCallback(name: string, message: string, error: unknown, request: XMLHttpRequest | XDomainRequest) {
       console.error('Error while executing ajax call', message, error, request)

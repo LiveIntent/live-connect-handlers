@@ -1,7 +1,7 @@
 import Cookies, { CookiesStatic } from 'js-cookie'
-import { ExternalStorageHandler, EventBus } from 'live-connect-common'
+import { StorageHandler, EventBus } from 'live-connect-common'
 
-export class DefaultStorageHandler implements ExternalStorageHandler {
+export class DefaultStorageHandler implements StorageHandler {
   private eventBus: EventBus
   private _localStorageIsEnabled?: boolean
   private cookies: CookiesStatic<null>
