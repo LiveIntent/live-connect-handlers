@@ -7,11 +7,10 @@ import dirtyChai from 'dirty-chai'
 use(dirtyChai)
 
 describe('Calls', () => {
-  let requests: any[] = []
-  const dummy = () => {
-  }
+  let requests: XMLHttpRequest[] = []
+  const dummy = () => undefined
   const sandbox = sinon.createSandbox()
-  let imgStub: SinonStub<any[], HTMLImageElement> | undefined
+  let imgStub: SinonStub<unknown[], HTMLImageElement> | undefined
 
   const calls = new DefaultCallHandler()
 
@@ -22,9 +21,9 @@ describe('Calls', () => {
 
   beforeEach(() => {
     requests = []
-    global.XDomainRequest = null
+    global.XDomainRequest = undefined
     global.XMLHttpRequest = sandbox.useFakeXMLHttpRequest()
-    global.XMLHttpRequest.onCreate = function (xhr) {
+    global.XMLHttpRequest.onCreate = function (xhr: XMLHttpRequest) {
       requests.push(xhr)
     }
   })
@@ -58,11 +57,12 @@ describe('Calls', () => {
   })
 
   it('should invoke the fallback callback on failure when ajaxGet', function (done) {
+    const expectedError = new Error('Purposely failing')
     global.XMLHttpRequest = () => {
-      throw new Error('Purposely failing')
+      throw expectedError
     }
-    const fallback = (error: any) => {
-      expect(error.message).to.be.eq('Purposely failing')
+    const fallback = (error: unknown) => {
+      expect(error).to.be.eq(expectedError)
       done()
     }
     calls.ajaxGet('http://steve.liadm.com/idex/any/any', dummy, fallback)

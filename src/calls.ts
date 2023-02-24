@@ -1,7 +1,6 @@
 import { ExternalCallHandler, isFunction } from 'live-connect-common'
 
 export class DefaultCallHandler implements ExternalCallHandler {
-
   ajaxGet(url: string, responseHandler: (responseText: string, response: object) => void, fallback?: (error: unknown) => void, timeout = 1000): void {
     function errorCallback(name: string, message: string, error: unknown, request: XMLHttpRequest | XDomainRequest) {
       console.error('Error while executing ajax call', message, error, request)
@@ -25,6 +24,7 @@ export class DefaultCallHandler implements ExternalCallHandler {
     }
 
     function xdrCall(): XDomainRequest {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const xdr = new window.XDomainRequest!()
       xdr.onprogress = () => undefined
       xdr.onerror = () => {
@@ -57,5 +57,4 @@ export class DefaultCallHandler implements ExternalCallHandler {
     }
     img.src = uri
   }
-
 }

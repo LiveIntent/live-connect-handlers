@@ -8,13 +8,11 @@
     "mocha": true
   },
   "plugins": [
-    "wdio",
     "@typescript-eslint",
     "typescript-formatter"
   ],
   "extends": [
     "standard",
-    "plugin:wdio/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "globals": {},

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": false,
     "typeRoots": ["./node_modules/@types", "./src/typings"],
-    "types": ["mocha"],
+    "types": ["mocha", "node"],
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "module": "CommonJS",
