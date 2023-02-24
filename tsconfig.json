@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "typeRoots": ["./node_modules/@types", "./src/typings"],
+    "types": ["mocha"],
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "module": "CommonJS",
+    "strict": true,
+    "declaration": true
+  },
+  "include": ["./src/**/*", "./test/**/*"]
+}

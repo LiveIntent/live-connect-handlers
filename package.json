@@ -1,0 +1,90 @@
+{
+  "author": "LiveIntent",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liveintent/live-connect-handlers"
+  },
+  "description": "Default implementations of LiveConnect handlers.",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "private": false,
+  "name": "live-connect-handlers",
+  "engines": {
+    "node": ">=8"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "build": "rollup -c ./rollup.config.js",
+    "test": "ts-mocha 'test/**/*.ts'",
+    "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
+    "fix": "eslint --fix 'src/**/*.ts' 'test/**/*.ts'",
+    "release:ci:prepatch": "release-it patch --preRelease=alpha --ci",
+    "release:ci:preminor": "release-it minor --preRelease=alpha --ci",
+    "release:ci:premajor": "release-it major --preRelease=alpha --ci",
+    "release:ci:bump-prerelease": "release-it --preRelease --ci",
+    "release:ci:alpha->beta": "release-it --preRelease=beta --ci",
+    "release:ci:beta->rc": "release-it --preRelease=rc --ci",
+    "release:ci:patch": "release-it patch --ci",
+    "release:ci:minor": "release-it minor --ci",
+    "release:ci:major": "release-it major --ci"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.1",
+    "live-connect-common": "^0.1.0-alpha.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-strip": "^1.3.3",
+    "@types/chai": "^4.3.4",
+    "@types/compression": "^1.7.2",
+    "@types/cors": "^2.8.13",
+    "@types/dirty-chai": "^2.0.2",
+    "@types/express": "^4.17.15",
+    "@types/js-cookie": "^3.0.2",
+    "@types/mocha": "^10.0.1",
+    "@types/sinon": "^10.0.13",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
+    "chai": "^4.2.0",
+    "chai-spies": "^1.0.0",
+    "core-js": "^3.6.5",
+    "dirty-chai": "^2.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-typescript-formatter": "0.0.2",
+    "express": "^4.17.1",
+    "mocha": "^6.2.3",
+    "mocha-jsdom": "^2.0.0",
+    "mocha-junit-reporter": "^2.0.0",
+    "mock-browser": "^0.92.14",
+    "mock-require": "^3.0.3",
+    "release-it": "^14.0.2",
+    "rollup": "^2.79.1",
+    "rollup-plugin-cleaner": "^1.0.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-mjs-entry": "^0.1.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "serialize-javascript": ">=3.1.0",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.3"
+  }
+}

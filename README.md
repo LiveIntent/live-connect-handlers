@@ -1,2 +1,2 @@
 # live-connect-handlers
-Default Implementation of handlers for live-connect
+Default implementations of handlers for live-connect
