@@ -1,7 +1,8 @@
-import jsdom from 'mocha-jsdom'
+import 'jsdom-global/register'
+import jsdom from 'jsdom-global'
 import sinon, { SinonStub } from 'sinon'
 import { expect, use } from 'chai'
-import { DefaultCallHandler } from '../src/calls'
+import { DefaultCallHandler } from '../src'
 import dirtyChai from 'dirty-chai'
 
 use(dirtyChai)
@@ -14,9 +15,8 @@ describe('Calls', () => {
 
   const calls = new DefaultCallHandler()
 
-  jsdom({
-    url: 'http://www.something.example.com',
-    useEach: true
+  jsdom('', {
+    url: 'http://www.something.example.com'
   })
 
   beforeEach(() => {

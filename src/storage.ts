@@ -55,14 +55,14 @@ export class DefaultStorageHandler implements StorageHandler {
       } else {
         expiresDate = expires
       }
-      this.cookies.set(key, value, { domain: domain, expires: expiresDate, samesite: sameSite })
+      this.cookies.set(key, value, { domain, expires: expiresDate, samesite: sameSite })
     } else {
-      this.cookies.set(key, value, { domain: domain, samesite: sameSite })
+      this.cookies.set(key, value, { domain, samesite: sameSite })
     }
   }
 
   localStorageIsEnabled() {
-    if (this._localStorageIsEnabled == null) {
+    if (this._localStorageIsEnabled === undefined) {
       this._localStorageIsEnabled = this.checkLocalStorage()
     }
     return this._localStorageIsEnabled
