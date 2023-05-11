@@ -12,9 +12,10 @@ describe('Storage', () => {
     url: 'http://www.example.com'
   })
 
-  const storage = new DefaultStorageHandler(new ReplayEmitter())
+  const storage = new DefaultStorageHandler(new ReplayEmitter(5))
 
   it('should add a cookie, return it after', function () {
+    // @ts-expect-error
     storage.setCookie('x', 'new-value', 2, undefined, 'example.com')
 
     const result = storage.getCookie('x')

@@ -21,8 +21,11 @@ describe('Calls', () => {
 
   beforeEach(() => {
     requests = []
+    // @ts-expect-error
     global.XDomainRequest = undefined
+    // @ts-expect-error
     global.XMLHttpRequest = sandbox.useFakeXMLHttpRequest()
+    // @ts-expect-error
     global.XMLHttpRequest.onCreate = function (xhr: XMLHttpRequest) {
       requests.push(xhr)
     }
@@ -36,6 +39,7 @@ describe('Calls', () => {
   })
 
   it('should invoke the success callback when ajaxGet', function (done) {
+    // @ts-expect-error
     const successCallback = (body, request) => {
       expect(body).to.eql('{"comment": "Howdy"}')
       expect(request).to.eql(requests[0])
@@ -43,6 +47,7 @@ describe('Calls', () => {
     }
     calls.ajaxGet('http://steve.liadm.com/idex/any/any', successCallback)
     const request = requests[0]
+    // @ts-expect-error
     request.respond(200, { 'Content-Type': 'application/json' }, '{"comment": "Howdy"}')
   })
 
@@ -53,11 +58,13 @@ describe('Calls', () => {
     }
     calls.ajaxGet('http://steve.liadm.com/idex/any/any', dummy, fallback)
     const request = requests[0]
+    // @ts-expect-error
     request.respond(503, null, '')
   })
 
   it('should invoke the fallback callback on failure when ajaxGet', function (done) {
     const expectedError = new Error('Purposely failing')
+    // @ts-expect-error
     global.XMLHttpRequest = () => {
       throw expectedError
     }
@@ -83,6 +90,7 @@ describe('Calls', () => {
     const obj = {} as HTMLImageElement
     imgStub = sandbox.stub(window, 'Image').returns(obj)
 
+    // @ts-expect-error
     calls.pixelGet('http://localhost', null)
 
     expect(obj.src).to.eq('http://localhost')

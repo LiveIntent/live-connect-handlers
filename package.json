@@ -5,23 +5,33 @@
     "url": "https://github.com/liveintent/live-connect-handlers"
   },
   "description": "Default implementations of LiveConnect handlers.",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "license": "Apache-2.0",
   "private": false,
   "name": "live-connect-handlers",
-  "type": "module",
+  "sideEffects": false,
   "engines": {
     "node": ">=18"
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
-    "dist/*"
+    "dist/*",
+    "dist/src/*"
   ],
   "scripts": {
-    "build": "rollup -c ./rollup.config.js",
-    "test": "ts-mocha 'test/**/*.ts'",
+    "build:mjs": "webpack --mode production --config ./webpack.config-mjs.js",
+    "build:cjs": "webpack --mode production --config ./webpack.config-cjs.js",
+    "build": "webpack --mode production",
+    "test": "ts-mocha -p ./tsconfig-test.json 'test/**/*.ts'",
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
     "fix": "eslint --fix 'src/**/*.ts' 'test/**/*.ts'",
     "release:ci:prepatch": "release-it patch --preRelease=alpha --ci",
@@ -36,14 +46,10 @@
   },
   "dependencies": {
     "js-cookie": "^3.0.5",
-    "live-connect-common": "^2.0.0",
+    "live-connect-common": "file:../live-connect-common/live-connect-common-3.0.0.tgz",
     "typescript": "^5.0.4"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.1.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
-    "@rollup/plugin-strip": "^3.0.2",
-    "@rollup/plugin-typescript": "^11.1.0",
     "@types/chai": "^4.3.5",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.13",
@@ -51,6 +57,7 @@
     "@types/js-cookie": "^3.0.3",
     "@types/jsdom-global": "^3.0.4",
     "@types/mocha": "^10.0.1",
+    "@types/node": "^20.1.1",
     "@types/sinon": "^10.0.14",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
@@ -64,19 +71,19 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-typescript-formatter": "0.0.2",
+    "eslint-webpack-plugin": "^4.0.1",
+    "fork-ts-checker-webpack-plugin": "^8.0.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^10.2.0",
     "mocha-junit-reporter": "^2.2.0",
     "mock-require": "^3.0.3",
     "release-it": "^15.10.3",
-    "rollup": "^3.21.4",
-    "rollup-plugin-cleaner": "^1.0.0",
-    "rollup-plugin-dts": "^5.3.0",
-    "rollup-plugin-mjs-entry": "^0.1.1",
-    "serialize-javascript": ">=6.0.1",
     "sinon": "^15.0.4",
     "sinon-chai": "^3.7.0",
+    "terser-webpack-plugin": "^5.3.8",
+    "ts-loader": "^9.4.2",
     "ts-mocha": "^10.0.0",
-    "ts-node": "^10.9.1"
+    "webpack": "^5.82.1",
+    "webpack-cli": "^5.1.1"
   }
 }
