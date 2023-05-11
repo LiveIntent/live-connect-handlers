@@ -1,4 +1,3 @@
-import 'jsdom-global/register'
 import { expect, use } from 'chai'
 import { DefaultStorageHandler } from '../src'
 import { ReplayEmitter } from 'live-connect-common'
@@ -8,9 +7,9 @@ import dirtyChai from 'dirty-chai'
 use(dirtyChai)
 
 describe('Storage', () => {
-  jsdom('', {
+  beforeEach(() => jsdom('', {
     url: 'http://www.example.com'
-  })
+  }))
 
   const storage = new DefaultStorageHandler(new ReplayEmitter(5))
 
