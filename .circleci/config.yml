@@ -6,7 +6,7 @@ orbs:
 parameters:
   node_version:
     type: string
-    default: "12.22.11"
+    default: "18.16.0"
 
 references:
   releasable_branches: &releasable_branches
