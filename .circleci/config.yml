@@ -107,9 +107,6 @@ workflows:
           type: approval
           requires:
             - build_and_test
-          filters:
-            branches:
-              only: *releasable_branches
 
       - release:
           context: live-connect
@@ -123,9 +120,6 @@ workflows:
           type: approval
           requires:
             - build_and_test
-          filters:
-            branches:
-              only: *releasable_branches
 
       - release:
           context: live-connect
@@ -139,9 +133,6 @@ workflows:
           type: approval
           requires:
             - build_and_test
-          filters:
-            branches:
-              only: master
 
       - release:
           context: live-connect
@@ -155,9 +146,6 @@ workflows:
           type: approval
           requires:
             - build_and_test
-          filters:
-            branches:
-              only: *releasable_branches
 
       - release:
           context: live-connect
@@ -237,7 +225,7 @@ workflows:
             - build_and_test
           filters:
             branches:
-              only: master
+              only: *releasable_branches
 
       - release:
           context: live-connect
