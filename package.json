@@ -5,7 +5,7 @@
     "url": "https://github.com/liveintent/live-connect-handlers"
   },
   "description": "Default implementations of LiveConnect handlers.",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha-b23ff16.0",
   "license": "Apache-2.0",
   "private": false,
   "name": "live-connect-handlers",
