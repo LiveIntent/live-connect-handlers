@@ -15,6 +15,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/src/index.d.ts",
+  "type": "commonjs",
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
@@ -27,14 +28,13 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "rollup -c ./rollup.config.js",
+    "build": "rollup -c rollup.config.mjs",
     "test": "ts-mocha -p ./tsconfig-test.json 'test/**/*.ts'",
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
     "fix": "eslint --fix 'src/**/*.ts' 'test/**/*.ts'",
     "release:ci:prepatch": "release-it patch --preRelease=alpha-$(git rev-parse --short HEAD) --ci",
     "release:ci:preminor": "release-it minor --preRelease=alpha-$(git rev-parse --short HEAD) --ci",
     "release:ci:premajor": "release-it major --preRelease=alpha-$(git rev-parse --short HEAD) --ci",
-    "release:ci:bump-prerelease": "release-it --preRelease --ci",
     "release:ci:alpha->beta": "release-it --preRelease=beta --ci",
     "release:ci:beta->rc": "release-it --preRelease=rc --ci",
     "release:ci:patch": "release-it patch --ci",
@@ -43,7 +43,7 @@
   },
   "peerDependencies": {
     "js-cookie": "^3.0.5",
-    "live-connect-common": "^2.0.0-alpha-e2ef6b1.0"
+    "live-connect-common": "^2.0.0-alpha-c159b0c.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
