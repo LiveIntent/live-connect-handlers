@@ -43,7 +43,7 @@
   },
   "peerDependencies": {
     "js-cookie": "^3.0.5",
-    "live-connect-common": "^2.0.0-alpha-c159b0c.0"
+    "live-connect-common": "^2.0.1-alpha-cbd6058.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
