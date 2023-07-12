@@ -2,8 +2,8 @@ import { CallHandler, isFunction } from 'live-connect-common'
 
 export class DefaultCallHandler implements CallHandler {
   ajaxGet(url: string, responseHandler: (responseText: string, response: object) => void, fallback?: (error: unknown) => void, timeout = 1000): void {
-    function errorCallback(name: string, message: string, request: XMLHttpRequest | XDomainRequest) {
-      console.error('Error while executing ajax call', message, request)
+    function errorCallback(message: string) {
+      console.error('Error while executing ajax call', message)
       if (isFunction(fallback)) fallback(new Error(message))
     }
 
@@ -15,8 +15,7 @@ export class DefaultCallHandler implements CallHandler {
           if ((status >= 200 && status < 300) || status === 304) {
             responseHandler(xhr.responseText, xhr)
           } else {
-            const message = `Error during XHR call: ${status}, url: ${url}`
-            errorCallback('XHRError', message, xhr)
+            errorCallback(`Error during XHR call: ${status}, url: ${url}, xhr: ${JSON.stringify(xhr)}`)
           }
         }
       }
@@ -27,25 +26,20 @@ export class DefaultCallHandler implements CallHandler {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const xdr = new window.XDomainRequest!()
       xdr.onprogress = () => undefined
-      xdr.onerror = () => {
-        const message = `Error during XDR call: ${xdr.responseText}, url: ${url}`
-        errorCallback('XDRError', message, xdr)
-      }
+      xdr.onerror = () => errorCallback(`Error during XDR call: ${xdr.responseText}, url: ${url}, xdr: ${JSON.stringify(xdr)}`)
       xdr.onload = () => responseHandler(xdr.responseText, xdr)
       return xdr
     }
 
     try {
       const request = (window && window.XDomainRequest) ? xdrCall() : xhrCall()
-      request.ontimeout = () => {
-        errorCallback('AjaxTimeout', `Timeout after ${timeout}, url : ${url}`, request)
-      }
+      request.ontimeout = () => errorCallback(`Timeout after ${timeout}, url : ${url}, request: ${JSON.stringify(request)}`)
       request.open('GET', url, true)
       request.timeout = timeout
       request.withCredentials = true
       request.send()
     } catch (error) {
-      errorCallback('AjaxCompositionError', `Error while constructing ajax request, ${error}`, undefined)
+      errorCallback(`Error while constructing ajax request, ${error}`)
     }
   }
 
