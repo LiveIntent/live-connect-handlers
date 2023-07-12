@@ -2,9 +2,9 @@ import { CallHandler, isFunction } from 'live-connect-common'
 
 export class DefaultCallHandler implements CallHandler {
   ajaxGet(url: string, responseHandler: (responseText: string, response: object) => void, fallback?: (error: unknown) => void, timeout = 1000): void {
-    function errorCallback(name: string, message: string, error: unknown, request: XMLHttpRequest | XDomainRequest) {
-      console.error('Error while executing ajax call', message, error, request)
-      if (isFunction(fallback)) fallback(error)
+    function errorCallback(name: string, message: string, request: XMLHttpRequest | XDomainRequest) {
+      console.error('Error while executing ajax call', message, request)
+      if (isFunction(fallback)) fallback(new Error(message))
     }
 
     function xhrCall(): XMLHttpRequest {
@@ -15,8 +15,8 @@ export class DefaultCallHandler implements CallHandler {
           if ((status >= 200 && status < 300) || status === 304) {
             responseHandler(xhr.responseText, xhr)
           } else {
-            const error = new Error(`Incorrect status received : ${status}`)
-            errorCallback('XHRError', `Error during XHR call: ${status}, url: ${url}`, error, xhr)
+            const message = `Error during XHR call: ${status}, url: ${url}`
+            errorCallback('XHRError', message, xhr)
           }
         }
       }
@@ -28,8 +28,8 @@ export class DefaultCallHandler implements CallHandler {
       const xdr = new window.XDomainRequest!()
       xdr.onprogress = () => undefined
       xdr.onerror = () => {
-        const error = new Error(`XDR Error received: ${xdr.responseText}`)
-        errorCallback('XDRError', `Error during XDR call: ${xdr.responseText}, url: ${url}`, error, xdr)
+        const message = `Error during XDR call: ${xdr.responseText}, url: ${url}`
+        errorCallback('XDRError', message, xdr)
       }
       xdr.onload = () => responseHandler(xdr.responseText, xdr)
       return xdr
@@ -38,15 +38,14 @@ export class DefaultCallHandler implements CallHandler {
     try {
       const request = (window && window.XDomainRequest) ? xdrCall() : xhrCall()
       request.ontimeout = () => {
-        const error = new Error(`Timeout after ${timeout}, url : ${url}`)
-        errorCallback('AjaxTimeout', `Timeout after ${timeout}`, error, request)
+        errorCallback('AjaxTimeout', `Timeout after ${timeout}, url : ${url}`, request)
       }
       request.open('GET', url, true)
       request.timeout = timeout
       request.withCredentials = true
       request.send()
     } catch (error) {
-      errorCallback('AjaxCompositionError', `Error while constructing ajax request, ${error}`, error, undefined)
+      errorCallback('AjaxCompositionError', `Error while constructing ajax request, ${error}`, undefined)
     }
   }
 
