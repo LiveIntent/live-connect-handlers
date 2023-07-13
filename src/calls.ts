@@ -21,7 +21,6 @@ export class DefaultCallHandler implements CallHandler {
           timeout: request.timeout,
           headers: [
             ...getHeaders(name => request.requestHeaders[name], {
-              userAgent: ['userAgent', 'user-agent', 'User-Agent'],
               acceptEncoding: ['acceptEncoding', 'accept-encoding', 'Accept-Encoding'],
               accept: ['accept', 'Accept']
             }),
