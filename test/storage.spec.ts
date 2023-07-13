@@ -7,7 +7,7 @@ import dirtyChai from 'dirty-chai'
 use(dirtyChai)
 
 describe('Storage', () => {
-  beforeEach(() => jsdom('', { url: 'http://www.example.com' })))
+  beforeEach(() => jsdom('', { url: 'http://www.example.com' }))
 
   const storage = new DefaultStorageHandler(new ReplayEmitter(5))
 
