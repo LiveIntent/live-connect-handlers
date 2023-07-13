@@ -3,11 +3,11 @@ import { CallHandler, isFunction } from 'live-connect-common'
 export class DefaultCallHandler implements CallHandler {
   ajaxGet(url: string, responseHandler: (responseText: string, response: object) => void, fallback?: (error: unknown) => void, timeout = 1000): void {
     function errorCallback(message: string, request?: XMLHttpRequest | XDomainRequest) {
-      function getHeaders(get: (name: string) => string, names: object) {
+      function getHeaders(get: (name: string) => string, names: { [key: string]: string[] }) {
         return Object.keys(names).map(key => {
-          const res = names[key].map(h => get(h)).find(Boolean)
+          const res = names[key].map(h => get(h)).find(x => !!x)
           return res && { [key]: res }
-        }).filter(Boolean)
+        }).filter(x => !!x)
       }
 
       const cleaned = !request
