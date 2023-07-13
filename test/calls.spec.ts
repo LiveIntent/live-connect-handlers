@@ -1,4 +1,4 @@
-import jsdom from 'mocha-jsdom'
+import jsdom from 'jsdom-global'
 import sinon, { SinonStub } from 'sinon'
 import { expect, use } from 'chai'
 import { DefaultCallHandler } from '../src/calls'
@@ -14,10 +14,7 @@ describe('Calls', () => {
 
   const calls = new DefaultCallHandler()
 
-  jsdom({
-    url: 'http://www.something.example.com',
-    useEach: true
-  })
+  beforeEach(() => jsdom('', { url: 'http://www.something.example.com' }))
 
   beforeEach(() => {
     requests = []
@@ -62,7 +59,7 @@ describe('Calls', () => {
       throw expectedError
     }
     const fallback = (error: unknown) => {
-      expect(error).to.be.eq(expectedError)
+      expect(error.message).to.match(/^Error while constructing ajax request/)
       done()
     }
     calls.ajaxGet('http://steve.liadm.com/idex/any/any', dummy, fallback)

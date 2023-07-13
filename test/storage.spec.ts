@@ -1,18 +1,15 @@
 import { expect, use } from 'chai'
 import { DefaultStorageHandler } from '../src/storage'
 import { ReplayEmitter } from 'live-connect-common'
-import jsdom from 'mocha-jsdom'
+import jsdom from 'jsdom-global'
 import dirtyChai from 'dirty-chai'
 
 use(dirtyChai)
 
 describe('Storage', () => {
-  jsdom({
-    url: 'http://www.example.com',
-    useEach: true
-  })
+  beforeEach(() => jsdom('', { url: 'http://www.example.com' }))
 
-  const storage = new DefaultStorageHandler(new ReplayEmitter())
+  const storage = new DefaultStorageHandler(new ReplayEmitter(10))
 
   it('should add a cookie, return it after', function () {
     storage.setCookie('x', 'new-value', 2, undefined, 'example.com')
