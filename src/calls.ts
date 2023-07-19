@@ -1,17 +1,16 @@
 import { CallHandler, isFunction } from 'live-connect-common'
 
 export class DefaultCallHandler implements CallHandler {
-  ajaxGet(url: string, responseHandler: (responseText: string, response: object) => void, fallback?: (error: unknown) => void, timeout = 1000): void {
+  ajaxGet(url: string, responseHandler: (responseText: string, response: object) => void, onError?: (error: unknown) => void, timeout = 1000): void {
     function errorCallback(message: string) {
-      if (isFunction(fallback)) fallback(new Error(message))
+      isFunction(onError) && onError(new Error(message))
     }
 
     function xhrCall(): XMLHttpRequest {
       const xhr = new XMLHttpRequest()
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
-          const status = xhr.status
-          if ((status >= 200 && status < 300) || status === 304) {
+          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
             responseHandler(xhr.responseText, xhr)
           } else {
             errorCallback(`Error during XHR call: ${status}, url: ${url}`)
