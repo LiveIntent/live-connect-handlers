@@ -13,7 +13,7 @@ export class DefaultCallHandler implements CallHandler {
           if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
             responseHandler(xhr.responseText, xhr)
           } else {
-            errorCallback(`Error during XHR call: ${status}, url: ${url}`)
+            errorCallback(`Error during XHR call: ${xhr.status}, url: ${url}`)
           }
         }
       }

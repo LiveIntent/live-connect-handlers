@@ -68,7 +68,7 @@ describe('Calls', () => {
       throw expectedError
     }
     const fallback = (error: unknown) => {
-      expect(error).to.be.eq(expectedError)
+      expect(error).to.match(new RegExp(`^Error: Error while constructing ajax request, ${expectedError}`))
       done()
     }
     calls.ajaxGet('http://steve.liadm.com/idex/any/any', dummy, fallback)
