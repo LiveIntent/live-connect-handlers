@@ -1,6 +1,7 @@
 version: 2.1
 
 orbs:
+  scala-build: liveintent/scala-build@9.4
   node: circleci/node@5.0.3
 
 parameters:
@@ -9,8 +10,27 @@ parameters:
     default: "18.16.0"
 
 references:
-  releasable_branches: &releasable_branches
-    - master
+  releasable_branch: &releasable_branch
+    branches:
+      only: master
+    tags:
+      only: /^$/
+
+  prereleasable_branch: &prereleasable_branch
+    branches:
+      ignore: /dependabot\/.*/
+    tags:
+      only: /^$/
+
+  update_pr: &update_pr
+    branches:
+      only: /dependabot\/.*/
+    tags:
+      only: /^$/
+
+  untagged_commit: &untagged_commit
+    tags:
+      only: /^$/
 
   restore_cache: &restore_cache
     restore_cache:
@@ -100,13 +120,24 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_and_test
+      - build_and_test:
+          filters:
+            <<: *untagged_commit
+
+      - scala-build/merge_pr:
+          context: org-global
+          requires:
+            - build_and_test
+          filters:
+            <<: *update_pr
 
       - release_prepatch?:
           context: live-connect
           type: approval
           requires:
             - build_and_test
+          filters:
+            <<: *prereleasable_branch
 
       - release:
           context: live-connect
@@ -120,6 +151,8 @@ workflows:
           type: approval
           requires:
             - build_and_test
+          filters:
+            <<: *prereleasable_branch
 
       - release:
           context: live-connect
@@ -133,6 +166,8 @@ workflows:
           type: approval
           requires:
             - build_and_test
+          filters:
+            <<: *prereleasable_branch
 
       - release:
           context: live-connect
@@ -147,8 +182,7 @@ workflows:
           requires:
             - build_and_test
           filters:
-            branches:
-              only: *releasable_branches
+            <<: *releasable_branch
 
       - release:
           context: live-connect
@@ -163,8 +197,7 @@ workflows:
           requires:
             - build_and_test
           filters:
-            branches:
-              only: *releasable_branches
+            <<: *releasable_branch
 
       - release:
           context: live-connect
@@ -179,8 +212,7 @@ workflows:
           requires:
             - build_and_test
           filters:
-            branches:
-              only: *releasable_branches
+            <<: *releasable_branch
 
       - release:
           context: live-connect
@@ -195,8 +227,7 @@ workflows:
           requires:
             - build_and_test
           filters:
-            branches:
-              only: *releasable_branches
+            <<: *releasable_branch
 
       - release:
           context: live-connect
