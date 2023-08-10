@@ -242,8 +242,7 @@ workflows:
           requires:
             - build_and_test
           filters:
-            branches:
-              only: *releasable_branches
+            <<: *releasable_branch
 
       - release:
           context: live-connect
