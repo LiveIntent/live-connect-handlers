@@ -30,8 +30,13 @@ export class DefaultCallHandler implements CallHandler {
     }
 
     try {
+      const startTime = Date.now()
       const request = (window && window.XDomainRequest) ? xdrCall() : xhrCall()
-      request.ontimeout = () => errorCallback(`Timeout after ${timeout}, url : ${url}`)
+
+      request.ontimeout = () => {
+        const duration = Date.now() - startTime
+        errorCallback(`Timeout after ${duration} (${timeout}), url: ${url}`)
+      }
       request.open('GET', url, true)
       request.timeout = timeout
       request.withCredentials = true
