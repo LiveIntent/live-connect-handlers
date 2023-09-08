@@ -4,6 +4,7 @@ import cleaner from 'rollup-plugin-cleaner'
 import mjsEntry from 'rollup-plugin-mjs-entry'
 import dts from 'rollup-plugin-dts'
 import del from "rollup-plugin-delete";
+import terser from '@rollup/plugin-terser'
 
 const OUTPUT_DIR = './dist'
 
@@ -26,6 +27,7 @@ export default [
                 }
             }),
             strip(),
+            terser(),
             mjsEntry() // https://nodejs.org/api/packages.html#packages_dual_commonjs_es_module_packages
         ]
     },

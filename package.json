@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-strip": "^3.0.2",
+    "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/chai": "^4.3.5",
     "@types/compression": "^1.7.2",
