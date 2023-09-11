@@ -35,6 +35,7 @@
     "release:ci:prepatch": "release-it patch --preRelease=alpha-$(git rev-parse --short HEAD) --ci",
     "release:ci:preminor": "release-it minor --preRelease=alpha-$(git rev-parse --short HEAD) --ci",
     "release:ci:premajor": "release-it major --preRelease=alpha-$(git rev-parse --short HEAD) --ci",
+    "release:ci:bump-prerelease": "release-it --preRelease --ci",
     "release:ci:alpha->beta": "release-it --preRelease=beta --ci",
     "release:ci:beta->rc": "release-it --preRelease=rc --ci",
     "release:ci:patch": "release-it patch --ci",
