@@ -176,6 +176,21 @@ workflows:
           requires:
             - release_premajor?
 
+      - release_bump_prerelease?:
+          context: live-connect
+          type: approval
+          requires:
+            - build_and_test
+          filters:
+            <<: *prereleasable_branch
+
+      - release:
+          context: live-connect
+          name: release_bump_prerelease
+          increment: "bump-prerelease"
+          requires:
+            - release_bump_prerelease?
+
       - release_alpha->beta?:
           context: live-connect
           type: approval
