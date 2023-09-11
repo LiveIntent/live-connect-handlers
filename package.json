@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "js-cookie": "^3.0.5",
-    "live-connect-common": "v3.0.1-alpha-2ef8d07.0"
+    "live-connect-common": "^v3.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-strip": "^3.0.2",
