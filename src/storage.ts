@@ -51,7 +51,7 @@ export class DefaultStorageHandler implements StorageHandler {
       if (typeof expires === 'string') {
         expiresDate = new Date(expires)
       } else if (typeof expires === 'number') {
-        expiresDate = new Date(Date.now() + expires * 864e5)
+        expiresDate = new Date((new Date()).getTime() + expires * 864e5)
       } else {
         expiresDate = expires
       }
