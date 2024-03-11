@@ -1,5 +1,5 @@
 import { expect, use } from 'chai'
-import { DefaultStorageHandler } from '../src'
+import { DefaultStorageHandler } from '../src/index.js'
 import { ReplayEmitter } from 'live-connect-common'
 import jsdom from 'jsdom-global'
 import dirtyChai from 'dirty-chai'

@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./typings"],
     "allowJs": false,
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["mocha"],
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "module": "ESNext",
     "strict": true,
     "declaration": true,
     "sourceMap": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext"
   },
-  "include": ["./src/**/*", "./test/**/*"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

@@ -12,15 +12,15 @@
   "engines": {
     "node": ">=8"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.cjs.mjs",
   "types": "./dist/index.d.ts",
-  "type": "commonjs",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.cjs.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -28,8 +28,9 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.mjs",
-    "test": "ts-mocha -p ./tsconfig-test.json 'test/**/*.ts'",
+    "build": "rollup -c rollup.config.js",
+    "test": "mocha --config mocha.json",
+    "test:ci": "mocha --config mocha.json -R mocha-junit-reporter -O mochaFile=test-results/results.xml",
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
     "fix": "eslint --fix 'src/**/*.ts' 'test/**/*.ts'",
     "release:ci:prepatch": "release-it patch --preRelease=alpha-$(git rev-parse --short HEAD) --ci",
@@ -48,29 +49,19 @@
   },
   "devDependencies": {
     "@rollup/plugin-strip": "^3.0.2",
-    "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/chai": "^4.3.5",
-    "@types/compression": "^1.7.2",
-    "@types/cors": "^2.8.13",
     "@types/dirty-chai": "^2.0.2",
-    "@types/express": "^4.17.17",
     "@types/js-cookie": "^3.0.3",
     "@types/jsdom-global": "^3.0.4",
     "@types/mocha": "^10.0.1",
     "@types/sinon": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^6.2.0",
     "chai": "^4.3.7",
     "chai-spies": "^1.0.0",
-    "core-js": "^3.31.1",
     "dirty-chai": "^2.0.1",
     "eslint": "^8.45.0",
     "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-typescript-formatter": "0.0.2",
     "jsdom-global": "^3.0.2",
     "mocha": "^10.2.0",
@@ -84,7 +75,6 @@
     "serialize-javascript": ">=6.0.1",
     "sinon": "^17.0.0",
     "sinon-chai": "^3.7.0",
-    "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }
