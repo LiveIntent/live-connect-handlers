@@ -28,7 +28,7 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.js",
+    "build": "rollup --failAfterWarnings -c rollup.config.js",
     "test": "mocha --config mocha.json",
     "test:ci": "mocha --config mocha.json -R mocha-junit-reporter -O mochaFile=test-results/results.xml",
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
