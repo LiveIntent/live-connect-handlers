@@ -3,8 +3,7 @@ import ts from '@rollup/plugin-typescript'
 import cleaner from 'rollup-plugin-cleaner'
 import mjsEntry from 'rollup-plugin-mjs-entry'
 import dts from 'rollup-plugin-dts'
-import del from "rollup-plugin-delete";
-import terser from '@rollup/plugin-terser'
+import del from "rollup-plugin-delete"
 
 const OUTPUT_DIR = './dist'
 
@@ -13,9 +12,9 @@ export default [
         input: './src/index.ts',
         output: [
             {
-                file: `${OUTPUT_DIR}/index.js`,
+                file: `${OUTPUT_DIR}/index.cjs`,
                 format: 'cjs',
-                sourcemap: true
+                sourcemap: false
             }
         ],
         plugins: [
@@ -27,8 +26,11 @@ export default [
                 }
             }),
             strip(),
-            terser(),
             mjsEntry() // https://nodejs.org/api/packages.html#packages_dual_commonjs_es_module_packages
+        ],
+        external: [
+            'live-connect-common',
+            'js-cookie'
         ]
     },
     {

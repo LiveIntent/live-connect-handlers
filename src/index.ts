@@ -1,2 +1,2 @@
-export { DefaultCallHandler } from './calls'
-export { DefaultStorageHandler } from './storage'
+export { DefaultCallHandler } from './calls.js'
+export { DefaultStorageHandler } from './storage.js'
