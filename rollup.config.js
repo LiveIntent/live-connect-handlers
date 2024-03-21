@@ -1,7 +1,6 @@
 import strip from '@rollup/plugin-strip'
 import ts from '@rollup/plugin-typescript'
 import cleaner from 'rollup-plugin-cleaner'
-import mjsEntry from 'rollup-plugin-mjs-entry'
 import dts from 'rollup-plugin-dts'
 import del from "rollup-plugin-delete"
 
@@ -12,8 +11,17 @@ export default [
         input: './src/index.ts',
         output: [
             {
-                file: `${OUTPUT_DIR}/index.cjs`,
+                dir: OUTPUT_DIR,
+                entryFileNames: '[name].cjs',
+                chunkFileNames: '[name]-[hash].cjs',
                 format: 'cjs',
+                sourcemap: false
+            },
+            {
+                dir: OUTPUT_DIR,
+                entryFileNames: '[name].mjs',
+                chunkFileNames: '[name]-[hash].mjs',
+                format: 'es',
                 sourcemap: false
             }
         ],
@@ -25,8 +33,7 @@ export default [
                     declarationDir: `${OUTPUT_DIR}/dts`,
                 }
             }),
-            strip(),
-            mjsEntry() // https://nodejs.org/api/packages.html#packages_dual_commonjs_es_module_packages
+            strip()
         ],
         external: [
             'live-connect-common',
