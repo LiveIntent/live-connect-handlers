@@ -12,15 +12,15 @@
   "engines": {
     "node": ">=20"
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.cjs.mjs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.cjs.mjs"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
