@@ -1,5 +1,4 @@
-import 'jsdom-global/register.js'
-import jsdom from 'jsdom-global'
+import jsdom from 'global-jsdom'
 import sinon, { SinonStub } from 'sinon'
 import { expect, use } from 'chai'
 import { DefaultCallHandler } from '../src/index.js'

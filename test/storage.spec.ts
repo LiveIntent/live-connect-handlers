@@ -1,7 +1,7 @@
 import { expect, use } from 'chai'
 import { DefaultStorageHandler } from '../src/index.js'
 import { ReplayEmitter } from 'live-connect-common'
-import jsdom from 'jsdom-global'
+import jsdom from 'global-jsdom'
 import dirtyChai from 'dirty-chai'
 
 use(dirtyChai)
