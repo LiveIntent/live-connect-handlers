@@ -3,7 +3,7 @@ import { CallHandler, isFunction } from 'live-connect-common'
 export class DefaultCallHandler implements CallHandler {
   ajaxGet(url: string, responseHandler: (responseText: string, response: object) => void, onError?: (error: unknown) => void, timeout = 1000): void {
     function errorCallback(message: string) {
-      isFunction(onError) && onError(new Error(message))
+      if (isFunction(onError)) onError(new Error(message))
     }
 
     function xhrCall(): XMLHttpRequest {
