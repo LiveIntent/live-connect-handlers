@@ -50,7 +50,7 @@
   "devDependencies": {
     "@kineticcafe/rollup-plugin-delete": "^3.0.0",
     "@rollup/plugin-strip": "^3.0.4",
-    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-typescript": "^12.1.0",
     "@types/chai": "^4.3.16",
     "@types/compression": "^1.7.5",
     "@types/cors": "^2.8.17",
