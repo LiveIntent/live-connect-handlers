@@ -63,7 +63,7 @@
     "chai-spies": "^1.1.0",
     "dirty-chai": "^2.0.1",
     "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-typescript-formatter": "0.0.2",
+    "eslint-plugin-typescript-formatter": "1.0.0",
     "global-jsdom": "^25.0.0",
     "mocha": "^10.6.0",
     "mocha-junit-reporter": "^2.2.1",
