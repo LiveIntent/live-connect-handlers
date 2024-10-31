@@ -94,4 +94,18 @@ describe('Calls', () => {
     expect(obj.src).to.eq('http://localhost')
     expect(obj.onload).to.be.undefined()
   })
+
+  it('should send headers', function (done) {
+    // @ts-expect-error
+    const successCallback = (body, request) => {
+      expect(body).to.eql('{"comment": "Howdy"}')
+      expect(request).to.eql(requests[0])
+      expect(request.requestHeaders['X-Test']).to.eql('test')
+      done()
+    }
+    calls.ajaxGet('http://steve.liadm.com/idex/any/any', successCallback, undefined, undefined, { 'X-Test': 'test' })
+    const request = requests[0]
+    // @ts-expect-error
+    request.respond(200, { 'Content-Type': 'application/json' }, '{"comment": "Howdy"}')
+  })
 })
