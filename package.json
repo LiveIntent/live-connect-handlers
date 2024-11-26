@@ -74,7 +74,7 @@
     "rollup-plugin-mjs-entry": "^0.1.1",
     "serialize-javascript": "^6.0.2",
     "sinon": "^19.0.1",
-    "sinon-chai": "^3.7.0",
+    "sinon-chai": "^4.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.0"
